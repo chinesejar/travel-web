@@ -25,9 +25,9 @@ export default () => {
   });
 
   const onFinish = (values) => {
-    console.log(values, data);
     values.start_poi = data.find(d => d.id === values.start_poi);
     values.end_poi = data.find(d => d.id === values.end_poi);
+    values.pois = [];
     dispatch({
       type: 'make/addRoute',
       payload: values

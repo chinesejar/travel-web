@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import {
-  Input,
-  Select,
   Card,
-  Typography,
   Space,
   Row,
   Col,
   Button,
-  Modal,
+  Typography,
 } from 'antd';
 import MinusOutlined from '@ant-design/icons/MinusOutlined';
+import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useDispatch, useSelector } from 'umi';
 import styles from './route_list.less';
+import PoiModal from './poi_modal';
+import { PoiTypes } from '@/utils/types';
 
 export default () => {
   const routes = useSelector(state => state.make.routes);
@@ -22,7 +22,7 @@ export default () => {
     <Row justify="center">
       <Col lg={8} md={12} xs={24}>
         <Space direction="vertical" style={{ width: '100%' }}>
-          {routes.map(route => (
+          {routes.map((route, i) => (
             <Card title={route.title} size="small" extra={<span>行程第{route.day}天</span>}>
               <Row justify="center">
                 <Col className={styles.PoiName}>{route.start_poi.name}</Col>
@@ -34,17 +34,33 @@ export default () => {
               <div style={{ padding: '4px 0' }}>
                 <span>{route.description}</span>
               </div>
-              <Row justify="end">
-                <Space>
-                  <Button size="small">景点</Button>
-                  <Button size="small">餐饮</Button>
-                  <Button size="small">住宿</Button>
-                </Space>
+              <Row justify="space-between">
+                <Col>
+                  <Typography.Text strong>
+                    推荐点
+                  </Typography.Text>
+                </Col>
+                <Col>
+                  <Button
+                    size="small"
+                    icon={<PlusOutlined />}
+                    onClick={() => dispatch({ type: 'make/setRouteIndex', payload: i })}
+                  >添加</Button>
+                </Col>
               </Row>
+              {route.pois.map(poi => (
+                <Row style={{ padding: '2px 0' }}>
+                  <Col span={4}>{PoiTypes[poi.type]}</Col>
+                  <Col flex={1}>{poi.poi.name}</Col>
+                  <Col span="auto">{poi.poi.address}</Col>
+                  <Col span={24}><strong>简介：</strong>{poi.description}</Col>
+                </Row>
+              ))}
             </Card>
           ))}
         </Space>
       </Col>
+      <PoiModal />
     </Row>
   )
 }

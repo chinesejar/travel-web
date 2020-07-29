@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import {
-  Input,
-  Select,
-  Typography,
+  Space,
   Table,
   Row,
   Col,
   Button,
   Radio,
-  Modal,
 } from 'antd';
 import { useRequest } from '@umijs/hooks';
 import { getPois } from '@/services/api';
-import styles from './index.less';
 import PoiModal from './components/poi_modal';
+import UpdateModal from './components/update_modal';
+import { useDispatch } from 'umi';
+import styles from './index.less';
 
 export default () => {
+  const dispatch = useDispatch();
   const [tab, setTab] = useState(0);
   const { data, loading, run, cancel } = useRequest(getPois, {
     debounceInterval: 500,
@@ -52,11 +52,19 @@ export default () => {
               { key: 'district', dataIndex: 'district', title: '区' },
               { key: 'lng', dataIndex: 'lng', title: '纬度' },
               { key: 'lat', dataIndex: 'lat', title: '经度' },
+              {
+                key: 'op', dataIndex: 'op', title: '操作', render: (_, rec) => (
+                  <Space>
+                    <Button type="primary" size="small" onClick={() => dispatch({ type: 'poi/setPoi', payload: rec })}>修改</Button>
+                  </Space>
+                )
+              },
             ]}
             dataSource={data}
           />
         </Col>
       </Row>
+      <UpdateModal />
     </div>
   )
 }

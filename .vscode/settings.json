@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "database": "/Users/quentin/CodeProjects/travel-server/travel.sqlite",
+      "driver": "SQLite",
+      "name": "travel",
+      "previewLimit": 50
+    }
+  ]
+}
