@@ -12,7 +12,8 @@ export default defineConfig({
   routes: [
     {
       path: '/', component: '@/layouts/BaseLayout', routes: [
-        { path: '/', component: '@/pages/make_guide' },
+        { path: '/', component: '@/pages/index' },
+        { path: '/make', component: '@/pages/make_guide' },
         { path: '/preview', component: '@/pages/preview_guide' },
         { path: '/poi', component: '@/pages/poi' },
       ]

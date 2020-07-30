@@ -3,10 +3,11 @@ import { Layout, Menu } from 'antd';
 import styles from './index.less';
 import { history } from 'umi';
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
 const routes = [
-  { path: '/', name: '制作攻略' },
+  { path: '/', name: '首页' },
+  { path: '/make', name: '制作攻略' },
   { path: '/preview', name: '预览攻略' },
   { path: '/poi', name: 'Poi坐标点' },
 ]
@@ -24,6 +25,14 @@ export default ({ children }) => {
         </Menu>
       </Header>
       <Content className={styles.content}>{children}</Content>
+      <Footer className={styles.footer}>
+        <div>
+          ©️ 时空路由科技有限公司
+        </div>
+        <div>
+          京ICP备14047664号-2
+        </div>
+      </Footer>
     </Layout>
   )
 }
