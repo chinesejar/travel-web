@@ -13,6 +13,7 @@ import {
 import RouteModal from './components/route_modal';
 import RouteList from './components/route_list';
 import SendOutlined from '@ant-design/icons/SendOutlined';
+import styles from './index.less';
 
 const { Option } = Select;
 
@@ -29,7 +30,7 @@ export default () => {
   const [routeModal, setRouteModal] = useState(false);
 
   return (
-    <div>
+    <div className={styles.container}>
       <Row justify="center">
         <Typography.Title level={4}>制作攻略</Typography.Title>
       </Row>

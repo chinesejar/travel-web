@@ -22,7 +22,7 @@ export default () => {
   });
 
   return (
-    <div>
+    <div className={styles.container}>
       <PoiModal />
       <Row justify="center">
         <Radio.Group

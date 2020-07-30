@@ -9,6 +9,9 @@ export default defineConfig({
   dva: {
     immer: true,
   },
+  metas: [
+    { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+  ],
   routes: [
     {
       path: '/', component: '@/layouts/BaseLayout', routes: [

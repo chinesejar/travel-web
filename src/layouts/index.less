@@ -14,7 +14,6 @@
 }
 
 .content {
-  padding: 24px;
   background-color: white;
   min-height: calc(100vh - 64px - 48px);
 }
@@ -25,4 +24,17 @@
   justify-content: space-between;
   align-items: center;
   height: 48px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 32px;
+    line-height: 32px;
+    padding: 0;
+  }
+
+  .logo {
+    width: 100px;
+    font-size: 1.2em;
+  }
 }
