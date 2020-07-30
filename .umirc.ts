@@ -16,10 +16,18 @@ export default defineConfig({
     {
       path: '/', component: '@/layouts/BaseLayout', routes: [
         { path: '/', component: '@/pages/index' },
-        { path: '/make', component: '@/pages/make_guide' },
-        { path: '/preview', component: '@/pages/preview_guide' },
+        { path: '/guide', component: '@/pages/guide' },
         { path: '/poi', component: '@/pages/poi' },
       ]
     },
   ],
+  theme: {
+    "primary-color": "#4caf50",
+    "font-size-base": "16px",
+    "height-base": "36px",
+    "height-lg": "44px",
+    "height-sm": "28px",
+    "border-width-base": "2px",
+    "layout-header-height": "48px",
+  }
 });

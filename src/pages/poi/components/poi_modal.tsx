@@ -45,12 +45,8 @@ export default () => {
   return (
     <>
       <Row>
-        <Col span={16} offset={4}>
+        <Col span={18} offset={3}>
           <Button icon={<PlusOutlined />} type="primary" onClick={() => setVisible(true)}>添加点</Button>
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col lg={8} md={12} xs={24}>
         </Col>
       </Row>
       <Modal

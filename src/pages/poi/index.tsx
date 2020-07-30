@@ -39,7 +39,7 @@ export default () => {
           buttonStyle="solid" />
       </Row>
       <Row>
-        <Col span={16} offset={4}>
+        <Col span={18} offset={3}>
           <Table
             bordered
             className={styles.Table}

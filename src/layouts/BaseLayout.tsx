@@ -7,9 +7,8 @@ const { Header, Content, Footer } = Layout;
 
 const routes = [
   { path: '/', name: '首页' },
-  { path: '/make', name: '制作攻略' },
-  { path: '/preview', name: '预览攻略' },
-  { path: '/poi', name: 'Poi坐标点' },
+  { path: '/guide', name: '攻略' },
+  { path: '/poi', name: '坐标点' },
 ]
 
 export default ({ children }) => {
