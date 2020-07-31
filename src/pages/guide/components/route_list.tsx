@@ -20,7 +20,7 @@ export default () => {
 
   return (
     <Row justify="center">
-      <Col lg={8} md={12} xs={24}>
+      <Col>
         <Space direction="vertical" style={{ width: '100%' }}>
           {routes.map((route, i) => (
             <Card title={route.title} size="small" extra={<span>行程第{route.day}天</span>}>
