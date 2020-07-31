@@ -38,11 +38,7 @@ export default () => {
 
   return (
     <>
-      <Row justify="center">
-        <Col lg={8} md={12} xs={24}>
-          <Button icon={<PlusOutlined />} type="primary" block onClick={() => setVisible(true)}>添加线路</Button>
-        </Col>
-      </Row>
+      <Button icon={<PlusOutlined />} type="primary" block onClick={() => setVisible(true)}>添加线路</Button>
       <Modal
         visible={visible}
         onCancel={() => setVisible(false)}

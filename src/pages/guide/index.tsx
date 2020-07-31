@@ -43,7 +43,7 @@ export default () => {
 
   return (
     <Row className={styles.container}>
-      <Col className={styles.form}>
+      <Col className={styles.form} span={6}>
         <Row justify="center">
           <Typography.Title level={4}>制作攻略</Typography.Title>
         </Row>
@@ -74,9 +74,7 @@ export default () => {
         <RouteModal />
         <RouteList />
         <Row justify="center" style={{ marginTop: 16 }}>
-          <Col lg={8} md={12} xs={24}>
-            <Button icon={<SendOutlined />} type="primary" block onClick={form.submit}>保存攻略</Button>
-          </Col>
+          <Button icon={<SendOutlined />} type="primary" block onClick={form.submit}>保存攻略</Button>
         </Row>
       </Col>
       <Col flex={1}>
