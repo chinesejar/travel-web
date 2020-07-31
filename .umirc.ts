@@ -9,6 +9,9 @@ export default defineConfig({
   dva: {
     immer: true,
   },
+  analytics: {
+    baidu: '8fb256f92cc56f3ee50dbcb35e748b21',
+  },
   externals: {
     'mapbox-gl': 'mapboxgl',
   },
