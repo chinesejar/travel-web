@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Input,
   Select,
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'umi';
 import { useRequest } from '@umijs/hooks';
 import { getPois } from '@/services/api';
 import { PoiTypes } from '@/utils/types';
+import PicturesWall from './picture_upload';
 
 const { Option } = Select;
 
@@ -66,6 +67,9 @@ export default () => {
           </Form.Item>
           <Form.Item name="description" label="线路点简介" rules={[{ required: true, message: '线路简介是必填项' }]}>
             <Input.TextArea placeholder="简单清晰的介绍一下你的线路点吧～让它变得更有吸引力" />
+          </Form.Item>
+          <Form.Item name="pictures" label="照片">
+            <PicturesWall />
           </Form.Item>
         </Form>
       </Modal>

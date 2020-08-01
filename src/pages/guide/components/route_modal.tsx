@@ -4,8 +4,6 @@ import {
   Select,
   InputNumber,
   Form,
-  Row,
-  Col,
   Button,
   Modal,
 } from 'antd';
@@ -13,6 +11,7 @@ import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useDispatch } from 'umi';
 import { useRequest } from '@umijs/hooks';
 import { getPois } from '@/services/api';
+import PicturesWall from './picture_upload';
 
 const { Option } = Select;
 
@@ -55,6 +54,9 @@ export default () => {
           </Form.Item>
           <Form.Item name="description" label="线路简介" rules={[{ required: true, message: '线路简介是必填项' }]}>
             <Input.TextArea placeholder="简单清晰的介绍一下你的线路吧～让它变得更有吸引力" />
+          </Form.Item>
+          <Form.Item name="pictures" label="照片">
+            <PicturesWall />
           </Form.Item>
           <Form.Item name="start_poi" label="起点" rules={[{ required: true, message: '起点是必填项' }]}>
             <Select

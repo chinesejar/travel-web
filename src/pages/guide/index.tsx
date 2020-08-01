@@ -8,7 +8,6 @@ import {
   Row,
   Col,
   Button,
-  Modal,
 } from 'antd';
 import RouteModal from './components/route_modal';
 import RouteList from './components/route_list';

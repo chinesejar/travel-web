@@ -1,7 +1,8 @@
 export default {
   amapKey: 'e251a73df57f20104f1c2a20059365d7',
   mapboxView: {
-    style: 'mapbox://styles/mapbox/streets-v11',
+    // style: 'mapbox://styles/mapbox/streets-v11',
+    style: 'mapbox://styles/mapbox/satellite-v9',
     center: [107, 35],
     zoom: 3.4,
   },
