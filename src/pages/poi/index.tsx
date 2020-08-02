@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import {
-  Space,
-  Table,
-  Row,
-  Col,
-  Button,
-  Radio,
-} from 'antd';
-import { useRequest } from '@umijs/hooks';
-import { getPois } from '@/services/api';
+import { Space, Table, Row, Col, Button, Radio } from 'antd';
 import PoiModal from './components/poi_modal';
 import UpdateModal from './components/update_modal';
-import { useDispatch } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import styles from './index.less';
 
 export default () => {
   const dispatch = useDispatch();
   const [tab, setTab] = useState(-1);
-  const poisReq = useRequest(getPois, {
-    debounceInterval: 500,
-  });
+  const pois = useSelector(state => state.poi.pois);
 
   return (
     <div className={styles.container}>
@@ -27,7 +16,7 @@ export default () => {
       <Row justify="center">
         <Radio.Group
           defaultValue={tab}
-          onChange={(e) => setTab(e.target.value)}
+          onChange={e => setTab(e.target.value)}
           options={[
             { label: '全部', value: -1 },
             { label: '景点', value: 1 },
@@ -37,7 +26,8 @@ export default () => {
             { label: '其他', value: 0 },
           ]}
           optionType="button"
-          buttonStyle="solid" />
+          buttonStyle="solid"
+        />
       </Row>
       <Row>
         <Col span={18} offset={3}>
@@ -54,19 +44,29 @@ export default () => {
               { key: 'lng', dataIndex: 'lng', title: '纬度' },
               { key: 'lat', dataIndex: 'lat', title: '经度' },
               {
-                key: 'op', dataIndex: 'op', title: '操作', render: (_, rec) => (
+                key: 'op',
+                dataIndex: 'op',
+                title: '操作',
+                render: (_, rec) => (
                   <Space>
-                    <Button type="primary" size="small" onClick={() => dispatch({ type: 'poi/setPoi', payload: rec })}>修改</Button>
+                    <Button
+                      type="primary"
+                      size="small"
+                      onClick={() =>
+                        dispatch({ type: 'poi/setPoi', payload: rec })
+                      }
+                    >
+                      修改
+                    </Button>
                   </Space>
-                )
+                ),
               },
             ]}
-            loading={poisReq.loading}
-            dataSource={poisReq.data?.filter(d => tab === -1 || d.type === tab)}
+            dataSource={pois.filter(d => tab === -1 || d.type === tab)}
           />
         </Col>
       </Row>
       <UpdateModal />
     </div>
-  )
-}
+  );
+};

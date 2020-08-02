@@ -1,19 +1,52 @@
+import api from '@/services';
+
+const { addPoi, getPois, searchAmapPois } = api;
+
 export default {
   namespace: 'poi',
   state: {
+    searchPois: [],
+    pois: [],
     poi: null,
   },
   effects: {
+    *setPois(_, { call, put }) {
+      const res = yield call(getPois);
+      if (res.success) {
+        yield put({
+          type: 'pois',
+          payload: res.data,
+        });
+      }
+    },
     *setPoi({ payload }, { put }) {
       yield put({
         type: 'poi',
-        payload
+        payload,
       });
+    },
+    *addPoi({ payload }, { call, put }) {
+      const res = yield call(addPoi, payload);
+      if (res.success) {
+        yield put({ type: 'setPois' });
+      }
     },
   },
   reducers: {
-    'poi'(state, action) {
+    pois(state, action) {
+      state.pois = action.payload;
+    },
+    poi(state, action) {
       state.poi = action.payload;
     },
-  }
-}
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        if ('/guide' === pathname || '/poi' === pathname) {
+          dispatch({ type: 'setPois' });
+        }
+      });
+    },
+  },
+};
