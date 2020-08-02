@@ -1,9 +1,11 @@
+@layout-footer-height: 36px;
+
 .map {
   height: 100%;
 }
 
 .form {
   padding: 12px;
-  height: calc(100vh - 48px - 48px);
+  min-height: calc(100vh - @layout-header-height - @layout-footer-height);
   overflow-y: auto;
 }

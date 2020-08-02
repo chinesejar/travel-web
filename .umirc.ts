@@ -46,10 +46,7 @@ export default defineConfig({
   ],
   theme: {
     "primary-color": "#4caf50",
-    "font-size-base": "16px",
-    "height-base": "36px",
-    "height-lg": "44px",
-    "height-sm": "28px",
+    "font-size-base": "14px",
     "border-width-base": "2px",
     "layout-header-height": "48px",
   }
