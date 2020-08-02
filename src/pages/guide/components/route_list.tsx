@@ -23,7 +23,7 @@ export default () => {
       <Col>
         <Space direction="vertical" style={{ width: '100%' }}>
           {routes.map((route, i) => (
-            <Card title={route.title} size="small" extra={<span>行程第{route.day}天</span>}>
+            <Card key={`route-${i}`} title={route.title} size="small" extra={<span>行程第{route.day}天</span>}>
               <Row justify="center">
                 <Col className={styles.PoiName}>{route.start_poi.name}</Col>
                 <Col className={styles.PoiName}>
@@ -49,8 +49,8 @@ export default () => {
                   >添加</Button>
                 </Col>
               </Row>
-              {route.pois.map(poi => (
-                <Row style={{ padding: '2px 0' }}>
+              {route.pois.map((poi, i) => (
+                <Row style={{ padding: '2px 0' }} key={`poi-${i}`}>
                   <Col span={4}>{poiTypes[poi.type]}</Col>
                   <Col flex={1}>{poi.poi.name}</Col>
                   <Col span="auto">{poi.poi.address}</Col>

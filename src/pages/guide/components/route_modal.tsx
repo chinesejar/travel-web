@@ -67,7 +67,7 @@ export default () => {
               }
               allowClear
             >
-              {data && data.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
+              {data?.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item name="end_poi" label="终点" rules={[{ required: true, message: '终点是必填项' }]}>
@@ -79,7 +79,7 @@ export default () => {
               }
               allowClear
             >
-              {data && data.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
+              {data?.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
             </Select>
           </Form.Item>
         </Form>

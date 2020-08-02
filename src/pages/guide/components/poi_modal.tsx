@@ -60,7 +60,7 @@ export default () => {
               allowClear
               loading={typesReq.loading}
             >
-              {typesReq.data?.map((name, i) => <Option value={i}>{name}</Option>)}
+              {typesReq.data?.map((name, i) => <Option key={i} value={i}>{name}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item name="poi" label="起点" rules={[{ required: true, message: '起点是必填项' }]}>

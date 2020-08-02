@@ -13,7 +13,7 @@ export default defineConfig({
     baidu: '8fb256f92cc56f3ee50dbcb35e748b21',
   },
   externals: {
-    'mapbox-gl': 'mapboxgl',
+    'AMap': 'window.AMap',
   },
   metas: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
@@ -26,7 +26,9 @@ export default defineConfig({
       content: '做了一个简单的旅游攻略制作网站，还在尝试中，从数据结构、逻辑功能到UI设计，都没有一个明确的目标。这是一个艰巨的任务，都要慢慢摸索。',
     },
   ],
-  scripts: ['https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'],
+  scripts: [
+    'https://webapi.amap.com/maps?v=1.4.15&key=bca26f48f82f1946c58e76f241173019'
+  ],
   links: [
     {
       rel: 'stylesheet',

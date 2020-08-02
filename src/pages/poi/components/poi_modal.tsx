@@ -79,7 +79,7 @@ export default () => {
             style={{ width: '100%' }}
             onChange={(i) => setPoi(data?.pois?.[i])}
           >
-            {data && data?.pois?.map((p, i) => <Option key={i} value={i}>{p.name}<br />{p.address}</Option>)}
+            {data?.pois?.map((p, i) => <Option key={i} value={i}>{p.name}<br />{p.address}</Option>)}
           </Select>
         </Space>
         {poi && (
