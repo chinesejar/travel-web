@@ -28,7 +28,7 @@ export default () => {
     values.end_poi = data.find(d => d.id === values.end_poi);
     values.pois = [];
     dispatch({
-      type: 'make/addRoute',
+      type: 'guide/addRoute',
       payload: values
     });
     form.resetFields();

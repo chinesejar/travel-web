@@ -13,7 +13,6 @@ export default {
   },
   reducers: {
     'poi'(state, action) {
-      console.log(state, action)
       state.poi = action.payload;
     },
   }

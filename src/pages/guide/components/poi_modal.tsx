@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Input,
   Select,
@@ -7,8 +7,7 @@ import {
 } from 'antd';
 import { useDispatch, useSelector } from 'umi';
 import { useRequest } from '@umijs/hooks';
-import { getPois } from '@/services/api';
-import { PoiTypes } from '@/utils/types';
+import { getPois, getPoiTypes } from '@/services/api';
 import PicturesWall from './picture_upload';
 
 const { Option } = Select;
@@ -16,15 +15,25 @@ const { Option } = Select;
 export default () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const index = useSelector(state => state.make.routeIndex);
-  const { data, loading, run, cancel } = useRequest(getPois, {
+  const index = useSelector(state => state.guide.routeIndex);
+  const typesReq = useRequest(getPoiTypes);
+  const poisReq = useRequest(getPois, {
     debounceInterval: 500,
   });
 
+  useEffect(() => {
+    if (typesReq.data) {
+      dispatch({
+        type: 'guide/setPoiTypes',
+        payload: typesReq.data
+      })
+    }
+  }, [typesReq.data])
+
   const onFinish = (values) => {
-    values.poi = data.find(d => d.id === values.poi);
+    values.poi = poisReq.data.find(d => d.id === values.poi);
     dispatch({
-      type: 'make/updateRoute',
+      type: 'guide/updateRoute',
       payload: { index, poi: values }
     });
     form.resetFields();
@@ -32,7 +41,7 @@ export default () => {
   };
 
   const onCancel = () => {
-    dispatch({ type: 'make/setRouteIndex', payload: -1 })
+    dispatch({ type: 'guide/setRouteIndex', payload: -1 })
   }
 
   return (
@@ -49,8 +58,9 @@ export default () => {
             <Select
               placeholder="确定一下点类型"
               allowClear
+              loading={typesReq.loading}
             >
-              {PoiTypes.map((name, i) => <Option value={i}>{name}</Option>)}
+              {typesReq.data?.map((name, i) => <Option value={i}>{name}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item name="poi" label="起点" rules={[{ required: true, message: '起点是必填项' }]}>
@@ -61,8 +71,9 @@ export default () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
               allowClear
+              loading={poisReq.loading}
             >
-              {data && data.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
+              {poisReq.data?.map(poi => <Option key={poi.id} value={poi.id}>{poi.name}</Option>)}
             </Select>
           </Form.Item>
           <Form.Item name="description" label="线路点简介" rules={[{ required: true, message: '线路简介是必填项' }]}>

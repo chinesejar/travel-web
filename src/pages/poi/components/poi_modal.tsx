@@ -4,19 +4,22 @@ import {
   Descriptions,
   Row,
   Col,
+  Space,
   Button,
   Modal,
 } from 'antd';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useRequest } from '@umijs/hooks';
-import { searchAmapPois, addPoi } from '@/services/api';
+import { searchAmapPois, addPoi, getPoiTypes } from '@/services/api';
 import styles from './poi_modal.less';
 
 const { Option } = Select;
 
 export default () => {
   const [visible, setVisible] = useState(false);
+  const [type, setType] = useState(0);
   const [poi, setPoi] = useState(null);
+  const typesReq = useRequest(getPoiTypes);
   const { data, loading, run, cancel } = useRequest(searchAmapPois, {
     debounceInterval: 500,
     manual: true
@@ -30,7 +33,7 @@ export default () => {
       const location = poi.location.split(',');
       const data = {
         name: poi.name,
-        type: 0,
+        type,
         address: poi.address,
         province: poi.pname,
         city: poi.cityname,
@@ -56,18 +59,29 @@ export default () => {
         okText="添加"
         cancelText="关闭"
         title="添加点">
-        <Select
-          showSearch
-          placeholder="输入点名，可能是地名、景区名、饭店名等等等等～"
-          filterOption={false}
-          onSearch={run}
-          onBlur={cancel}
-          loading={loading}
-          style={{ width: '100%' }}
-          onChange={(i) => setPoi(data?.pois?.[i])}
-        >
-          {data && data?.pois?.map((p, i) => <Option key={i} value={i}>{p.name}<br />{p.address}</Option>)}
-        </Select>
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Select
+            placeholder="选择点类型"
+            style={{ width: '100%' }}
+            onChange={setType}
+            value={type}
+            loading={typesReq.loading}
+          >
+            {typesReq.data?.map((name, i) => <Option key={i} value={i}>{name}</Option>)}
+          </Select>
+          <Select
+            showSearch
+            placeholder="输入点名，可能是地名、景区名、饭店名等等等等～"
+            filterOption={false}
+            onSearch={run}
+            onBlur={cancel}
+            loading={loading}
+            style={{ width: '100%' }}
+            onChange={(i) => setPoi(data?.pois?.[i])}
+          >
+            {data && data?.pois?.map((p, i) => <Option key={i} value={i}>{p.name}<br />{p.address}</Option>)}
+          </Select>
+        </Space>
         {poi && (
           <Descriptions bordered size="small" column={1} className={styles.Result}>
             <Descriptions.Item label="名称" span={1}>{poi.name}</Descriptions.Item>

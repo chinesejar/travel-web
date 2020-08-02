@@ -12,10 +12,10 @@ import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useDispatch, useSelector } from 'umi';
 import styles from './route_list.less';
 import PoiModal from './poi_modal';
-import { PoiTypes } from '@/utils/types';
 
 export default () => {
-  const routes = useSelector(state => state.make.routes);
+  const routes = useSelector(state => state.guide.routes);
+  const poiTypes = useSelector(state => state.guide.poiTypes);
   const dispatch = useDispatch();
 
   return (
@@ -43,14 +43,15 @@ export default () => {
                 <Col>
                   <Button
                     size="small"
+                    type="primary"
                     icon={<PlusOutlined />}
-                    onClick={() => dispatch({ type: 'make/setRouteIndex', payload: i })}
+                    onClick={() => dispatch({ type: 'guide/setRouteIndex', payload: i })}
                   >添加</Button>
                 </Col>
               </Row>
               {route.pois.map(poi => (
                 <Row style={{ padding: '2px 0' }}>
-                  <Col span={4}>{PoiTypes[poi.type]}</Col>
+                  <Col span={4}>{poiTypes[poi.type]}</Col>
                   <Col flex={1}>{poi.poi.name}</Col>
                   <Col span="auto">{poi.poi.address}</Col>
                   <Col span={24}><strong>简介：</strong>{poi.description}</Col>

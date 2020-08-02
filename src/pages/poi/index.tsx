@@ -16,8 +16,8 @@ import styles from './index.less';
 
 export default () => {
   const dispatch = useDispatch();
-  const [tab, setTab] = useState(0);
-  const { data, loading, run, cancel } = useRequest(getPois, {
+  const [tab, setTab] = useState(-1);
+  const poisReq = useRequest(getPois, {
     debounceInterval: 500,
   });
 
@@ -29,11 +29,12 @@ export default () => {
           defaultValue={tab}
           onChange={(e) => setTab(e.target.value)}
           options={[
-            { label: '全部', value: 0 },
+            { label: '全部', value: -1 },
             { label: '景点', value: 1 },
-            { label: '住宿', value: 2 },
-            { label: '餐饮', value: 3 },
-            { label: '其他', value: 4 },
+            { label: '餐饮', value: 2 },
+            { label: '住宿', value: 3 },
+            { label: '娱乐', value: 4 },
+            { label: '其他', value: 0 },
           ]}
           optionType="button"
           buttonStyle="solid" />
@@ -60,7 +61,8 @@ export default () => {
                 )
               },
             ]}
-            dataSource={data}
+            loading={poisReq.loading}
+            dataSource={poisReq.data?.filter(d => tab === -1 || d.type === tab)}
           />
         </Col>
       </Row>

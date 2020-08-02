@@ -15,6 +15,10 @@ import SendOutlined from '@ant-design/icons/SendOutlined';
 import mapboxgl, { NavigationControl } from 'mapbox-gl';
 import config from '@/config';
 import styles from './index.less';
+import MapContext from '@/components/MapContext';
+import { useRequest } from '@umijs/hooks';
+import { useDispatch } from 'umi';
+import { getGuideTypes } from '@/services/api';
 
 const { Option } = Select;
 const { mapboxView, mapboxToken } = config;
@@ -22,8 +26,10 @@ const { mapboxView, mapboxToken } = config;
 mapboxgl.accessToken = mapboxToken;
 
 export default () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [map, setMap] = useState(null);
+  const typesReq = useRequest(getGuideTypes);
 
   useEffect(() => {
     let mapbox = new mapboxgl.Map({
@@ -60,10 +66,9 @@ export default () => {
             <Select
               placeholder="确定一下攻略类型，以便适应不同需求的朋友们"
               allowClear
+              loading={typesReq.loading}
             >
-              <Option value={0}>生态休闲</Option>
-              <Option value={1}>文化古迹</Option>
-              <Option value={2}>宗教朝圣</Option>
+              {typesReq.data?.map((type, i) => <Option value={i}>{type}</Option>)}
             </Select>
           </Form.Item>
         </Form>

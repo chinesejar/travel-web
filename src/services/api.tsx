@@ -7,6 +7,11 @@ export const searchAmapPois = (keywords) => ({
   method: 'get'
 })
 
+export const getGuideTypes = () => ({
+  url: `${serverUrl}/v1/type/guide`,
+  method: 'get',
+})
+
 export const getPois = () => ({
   url: `${serverUrl}/v1/poi`,
   method: 'get',
@@ -16,4 +21,9 @@ export const addPoi = (data) => ({
   url: `${serverUrl}/v1/poi`,
   method: 'post',
   data
+})
+
+export const getPoiTypes = () => ({
+  url: `${serverUrl}/v1/type/poi`,
+  method: 'get',
 })

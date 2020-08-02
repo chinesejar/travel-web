@@ -1,1 +1,0 @@
-export const PoiTypes = ["景点", "餐饮", "住宿", "娱乐", "其他"]

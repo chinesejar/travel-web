@@ -1,6 +1,9 @@
 import React from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import config from '@/config';
+
+const { serverUrl } = config;
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -46,7 +49,7 @@ class PicturesWall extends React.Component {
     return (
       <div className="clearfix">
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action={`${serverUrl}/v1/route-img`}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}

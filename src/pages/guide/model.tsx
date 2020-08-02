@@ -1,13 +1,27 @@
 export default {
-  namespace: 'make',
+  namespace: 'guide',
   state: {
     routes: [],
+    guideTypes: [],
+    poiTypes: [],
     routeIndex: -1,
   },
   effects: {
     *addRoute({ payload }, { put }) {
       yield put({
         type: 'routes',
+        payload
+      });
+    },
+    *setGuideTypes({ payload }, { put }) {
+      yield put({
+        type: 'guideTypes',
+        payload
+      });
+    },
+    *setPoiTypes({ payload }, { put }) {
+      yield put({
+        type: 'poiTypes',
         payload
       });
     },
@@ -27,6 +41,12 @@ export default {
   reducers: {
     'routes'(state, action) {
       state.routes.push(action.payload);
+    },
+    'guideTypes'(state, action) {
+      state.guideTypes = action.payload;
+    },
+    'poiTypes'(state, action) {
+      state.poiTypes = action.payload;
     },
     'routeIndex'(state, action) {
       state.routeIndex = action.payload;
