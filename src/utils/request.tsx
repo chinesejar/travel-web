@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 import { history } from 'umi';
 import store from 'store';
 import config from '../config';
@@ -9,7 +9,7 @@ const { CancelToken } = axios;
 window.cancelRequest = new Map();
 
 export default function request(options) {
-  let { param, query, url, method = 'get' } = options;
+  let { param, query, url } = options;
 
   try {
     if (param) {
@@ -72,8 +72,13 @@ export default function request(options) {
         msg = error.message || 'Network Error';
       }
 
+      notification.error({
+        message: '请求异常',
+        description: msg,
+      });
+
       /* eslint-disable */
-      return Promise.reject({
+      return Promise.resolve({
         success: false,
         statusCode,
         message: msg,

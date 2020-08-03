@@ -4,5 +4,8 @@ export default {
     center: [116.397428, 39.90923],
     zoom: 11,
   },
-  serverUrl: process.env.NODE_ENV === 'development' ? 'http://192.168.124.56:3000' : 'http://travel-api.timeroute.cn',
-}
+  serverUrl:
+    process.env.NODE_ENV === 'development'
+      ? 'http://127.0.0.1:3000'
+      : 'http://travel-api.timeroute.cn',
+};

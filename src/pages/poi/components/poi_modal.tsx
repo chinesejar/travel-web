@@ -34,7 +34,7 @@ export default () => {
       const data = {
         name: poi.name,
         type,
-        address: poi.address,
+        address: poi.address.length === 0 ? '' : poi.address,
         province: poi.pname,
         city: poi.cityname,
         district: poi.adname,

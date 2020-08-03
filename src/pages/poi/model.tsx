@@ -1,6 +1,7 @@
 import api from '@/services';
+import { notification } from 'antd';
 
-const { addPoi, getPois, searchAmapPois } = api;
+const { addPoi, getPois } = api;
 
 export default {
   namespace: 'poi',
@@ -29,6 +30,11 @@ export default {
       const res = yield call(addPoi, payload);
       if (res.success) {
         yield put({ type: 'setPois' });
+      } else {
+        notification.error({
+          message: '添加失败',
+          description: res.message,
+        });
       }
     },
   },
