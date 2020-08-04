@@ -7,7 +7,8 @@ export default () => {
   const dispatch = useDispatch();
 
   const onFinish = values => {
-    dispatch({ type: 'auth/login', payload: { data: values } });
+    delete values.password2;
+    dispatch({ type: 'auth/register', payload: { data: values } });
   };
 
   return (
@@ -28,12 +29,29 @@ export default () => {
           >
             <Input.Password />
           </Form.Item>
+          <Form.Item
+            label="确认密码"
+            name="password2"
+            rules={[
+              { required: true, message: '密码必须输入' },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('密码不匹配');
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
           <Form.Item>
             <Button htmlType="submit" block type="primary">
-              登录
-            </Button>
-            <Button block type="link" onClick={() => history.push('/register')}>
               注册
+            </Button>
+            <Button block type="link" onClick={() => history.push('/login')}>
+              登录
             </Button>
           </Form.Item>
         </Form>

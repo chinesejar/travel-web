@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu, Button } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';
 import styles from './index.less';
-import { history } from 'umi';
+import { history, useSelector } from 'umi';
 
 const { Header, Content, Footer } = Layout;
 
@@ -13,6 +13,8 @@ const routes = [
 ];
 
 export default ({ children }) => {
+  const user = useSelector(state => state.auth.user);
+
   return (
     <Layout>
       <Header className={styles.header}>
