@@ -1,18 +1,16 @@
 import React from 'react';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button, Dropdown } from 'antd';
 import UserOutlined from '@ant-design/icons/UserOutlined';
+import CaretDownOutlined from '@ant-design/icons/CaretDownOutlined';
 import styles from './index.less';
-import { history, useSelector } from 'umi';
+import { history, useSelector, useDispatch } from 'umi';
 
 const { Header, Content, Footer } = Layout;
 
-const routes = [
-  { path: '/', name: '首页' },
-  { path: '/guide', name: '攻略' },
-  { path: '/poi', name: '坐标点' },
-];
+const routes = [{ path: '/', name: '首页' }];
 
 export default ({ children }) => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
   return (
@@ -33,14 +31,36 @@ export default ({ children }) => {
           ))}
         </Menu>
         <div className={styles.actions}>
-          <Button
-            icon={<UserOutlined />}
-            type="link"
-            onClick={() => history.push('/login')}
-          ></Button>
+          {user ? (
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item onClick={() => history.push('/dashboard')}>
+                    控制台
+                  </Menu.Item>
+                  <Menu.Item onClick={() => dispatch({ type: 'auth/logout' })}>
+                    注销
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <div>
+                <Button type="link">
+                  {user.username}
+                  <CaretDownOutlined />
+                </Button>
+              </div>
+            </Dropdown>
+          ) : (
+            <Button
+              icon={<UserOutlined />}
+              type="link"
+              onClick={() => history.push('/login')}
+            ></Button>
+          )}
         </div>
       </Header>
-      <Content className={styles.content}>{children}</Content>
+      {children}
       <Footer className={styles.footer}>
         <div>©️ 时空路由科技有限公司</div>
         <div>京ICP备14047664号-2</div>

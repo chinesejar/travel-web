@@ -12,14 +12,10 @@ import {
 import RouteModal from './components/route_modal';
 import RouteList from './components/route_list';
 import SendOutlined from '@ant-design/icons/SendOutlined';
-import mapboxgl, { NavigationControl } from 'mapbox-gl';
 import config from '@/config';
 import styles from './index.less';
-import MapContext from '@/components/MapContext';
 import AMap from 'AMap';
-import { useRequest } from '@umijs/hooks';
 import { useDispatch, useSelector } from 'umi';
-import { getGuideTypes } from '@/services/api';
 
 const { Option } = Select;
 const { mapView } = config;
@@ -77,10 +73,7 @@ export default () => {
 
   return (
     <Row className={styles.container}>
-      <Col className={styles.form} span={6}>
-        <Row justify="center">
-          <Typography.Title level={4}>制作攻略</Typography.Title>
-        </Row>
+      <Col className={styles.form} lg={6} sm={12} xs={24}>
         <Form form={form} layout="vertical">
           <Form.Item
             name="title"

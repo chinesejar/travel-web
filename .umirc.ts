@@ -43,13 +43,38 @@ export default defineConfig({
   routes: [
     {
       path: '/',
+      exact: false,
       component: '@/layouts/BaseLayout',
       routes: [
-        { path: '/', component: '@/pages/index' },
-        { path: '/login', component: '@/pages/login' },
-        { path: '/register', component: '@/pages/register' },
-        { path: '/guide', component: '@/pages/guide' },
-        { path: '/poi', component: '@/pages/poi' },
+        {
+          path: '/',
+          exact: false,
+          component: '@/layouts/PubLayout',
+          routes: [
+            { path: '/', exact: true, component: '@/pages/index' },
+            { path: '/login', exact: true, component: '@/pages/login' },
+            { path: '/register', exact: true, component: '@/pages/register' },
+            {
+              path: '/',
+              exact: false,
+              component: '@/layouts/PrivateLayout',
+              routes: [
+                {
+                  path: '/dashboard',
+                  exact: true,
+                  component: '@/pages/dashboard',
+                },
+                { path: '/guide', exact: true, component: '@/pages/guides' },
+                {
+                  path: '/guide/make',
+                  exact: true,
+                  component: '@/pages/guide',
+                },
+                { path: '/poi', exact: true, component: '@/pages/poi' },
+              ],
+            },
+          ],
+        },
       ],
     },
   ],

@@ -22,6 +22,20 @@ export default {
         });
       }
     },
+    *logout(_, { put }) {
+      store.set('user', null);
+      store.set('token', null);
+      yield put({
+        type: 'user',
+        payload: null,
+      });
+      yield put({
+        type: 'token',
+        payload: null,
+      });
+      message.success('注册成功');
+      history.push('/login');
+    },
     *login({ payload }, { call, put }) {
       const res = yield call(login, payload);
       if (res.success) {
@@ -33,7 +47,8 @@ export default {
           payload: token,
         });
         yield put({ type: 'setUser' });
-        history.goBack();
+        if (history.location.pathname === '/login') history.replace('/');
+        else history.goBack();
       }
     },
     *register({ payload }, { call, put }) {
