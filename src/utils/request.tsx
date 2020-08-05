@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { message, notification } from 'antd';
-import { history } from 'umi';
 import store from 'store';
 import config from '../config';
 
@@ -60,7 +59,7 @@ export default function request(options) {
       if (response.status === 401) {
         store.set('token', null);
         store.set('user', null);
-        history.push('/login');
+        location.href = '/login';
       }
 
       if (response && response instanceof Object) {

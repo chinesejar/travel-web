@@ -1,29 +1,17 @@
 import React from 'react';
-import { Typography, Row, Col, Divider, List, Button } from 'antd';
+import { Typography, Row, Col, Divider, List, Button, Space } from 'antd';
 import styles from './index.less';
-import { useDispatch, history } from 'umi';
-
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
+import { useDispatch, history, useSelector } from 'umi';
 
 export default () => {
   const dispatch = useDispatch();
+  const guides = useSelector(state => state.guides.guides);
 
   const handleCreate = () => {
     dispatch({
       type: 'guides/addGuide',
     });
-    // history.push('/guide/make')
+    history.push('/guide/make');
   };
 
   return (
@@ -42,10 +30,33 @@ export default () => {
           <List
             footer={<div>Footer</div>}
             bordered
-            dataSource={data}
+            dataSource={guides}
             renderItem={item => (
               <List.Item>
-                <Typography.Text mark>[ITEM]</Typography.Text> {item}
+                <Row>
+                  <Col span={4}>
+                    <Typography.Text>
+                      {item.id} {item.title}
+                    </Typography.Text>
+                  </Col>
+                  <Col span={16}>
+                    {item.days}
+                    <Typography.Text mark>{item.status}</Typography.Text>
+                  </Col>
+                  <Col span={4}>
+                    <Space>
+                      <Button type="primary" size="small">
+                        编辑
+                      </Button>
+                      <Button type="primary" size="small">
+                        发布
+                      </Button>
+                      <Button type="primary" danger size="small">
+                        删除
+                      </Button>
+                    </Space>
+                  </Col>
+                </Row>
               </List.Item>
             )}
           />
