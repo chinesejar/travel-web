@@ -38,8 +38,10 @@ export default () => {
         province: poi.pname,
         city: poi.cityname,
         district: poi.adname,
-        lng: location[0],
-        lat: location[1],
+        geometry: {
+          type: 'Point',
+          coordinates: location,
+        },
         source: 'amap',
       };
       dispatch({

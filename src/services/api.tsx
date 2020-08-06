@@ -5,6 +5,7 @@ export default {
   getGuideTypes: '/v1/type/guide',
   getGuides: '/v1/guide',
   addGuide: 'POST /v1/guide',
+  putGuide: 'PUT /v1/guide/:id',
   getPoiTypes: '/v1/type/poi',
   getPois: '/v1/poi',
   addPoi: 'POST /v1/poi',

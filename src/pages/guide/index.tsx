@@ -24,7 +24,8 @@ export default () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [map, setMap] = useState(null);
-  const routes = useSelector(state => state.guide.routes);
+  const guide = useSelector(state => state.guide.guide);
+  const routes = guide.Routes;
   const guideTypes = useSelector(state => state.guide.guideTypes);
 
   useEffect(() => {
@@ -71,10 +72,23 @@ export default () => {
     }
   }, [routes, map]);
 
+  const onFinish = values => {
+    values.routes = guide.Routes;
+    dispatch({
+      type: 'guides/putGuide',
+      payload: { data: values, param: { id: guide.id } },
+    });
+  };
+
   return (
     <Row className={styles.container}>
       <Col className={styles.form} lg={6} sm={12} xs={24}>
-        <Form form={form} layout="vertical">
+        <Form
+          form={form}
+          layout="vertical"
+          initialValues={guide}
+          onFinish={onFinish}
+        >
           <Form.Item
             name="title"
             label="标题"

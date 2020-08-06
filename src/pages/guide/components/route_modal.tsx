@@ -15,8 +15,6 @@ export default () => {
   const pois = useSelector(state => state.poi.pois);
 
   const onFinish = values => {
-    values.start_poi = pois.find(d => d.id === values.start_poi);
-    values.end_poi = pois.find(d => d.id === values.end_poi);
     values.pois = [];
     dispatch({
       type: 'guide/addRoute',

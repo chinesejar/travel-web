@@ -1,6 +1,7 @@
 import api from '@/services';
+import { message } from 'antd';
 
-const { addGuide, getGuides } = api;
+const { addGuide, getGuides, putGuide } = api;
 
 export default {
   namespace: 'guides',
@@ -27,6 +28,16 @@ export default {
         });
       }
     },
+    *putGuide({ payload }, { call, put }) {
+      const res = yield call(putGuide, payload);
+      if (res.success) {
+        yield put({
+          type: 'guide',
+          payload: res.data,
+        });
+        message.success('保存成功');
+      }
+    },
   },
   reducers: {
     guides(state, action) {
@@ -34,6 +45,9 @@ export default {
     },
     guide(state, action) {
       state.guide = action.payload;
+    },
+    put_guide(state, action) {
+      state.guide = Object.assign(state.guide, action.payload);
     },
   },
   subscriptions: {

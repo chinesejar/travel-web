@@ -14,6 +14,14 @@ export default () => {
     history.push('/guide/make');
   };
 
+  const handleEdit = guide => {
+    dispatch({
+      type: 'guide/setGuide',
+      payload: guide,
+    });
+    history.push('/guide/make');
+  };
+
   return (
     <div className={styles.container}>
       <Row justify="space-between">
@@ -45,7 +53,11 @@ export default () => {
                   </Col>
                   <Col span={4}>
                     <Space>
-                      <Button type="primary" size="small">
+                      <Button
+                        type="primary"
+                        size="small"
+                        onClick={() => handleEdit(item)}
+                      >
                         编辑
                       </Button>
                       <Button type="primary" size="small">

@@ -5,15 +5,22 @@ const { getGuideTypes, getPoiTypes } = api;
 export default {
   namespace: 'guide',
   state: {
+    guide: null,
     routes: [],
     guideTypes: [],
     poiTypes: [],
     routeIndex: -1,
   },
   effects: {
+    *setGuide({ payload }, { put }) {
+      yield put({
+        type: 'set_guide',
+        payload,
+      });
+    },
     *addRoute({ payload }, { put }) {
       yield put({
-        type: 'routes',
+        type: 'add_route',
         payload,
       });
     },
@@ -49,6 +56,12 @@ export default {
     },
   },
   reducers: {
+    set_guide(state, action) {
+      state.guide = action.payload;
+    },
+    add_route(state, action) {
+      state.guide.Routes.push(action.payload);
+    },
     routes(state, action) {
       state.routes.push(action.payload);
     },
@@ -63,7 +76,9 @@ export default {
     },
     routePoi(state, action) {
       const { index, poi } = action.payload;
-      state.routes[index].pois.push(poi);
+      if (state.guide.Routes[index].Pois)
+        state.guide.Routes[index].Pois.push(poi);
+      else state.guide.Routes[index].Pois = [poi];
     },
   },
   subscriptions: {

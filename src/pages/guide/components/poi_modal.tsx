@@ -11,11 +11,9 @@ export default () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const index = useSelector(state => state.guide.routeIndex);
-  const poiTypes = useSelector(state => state.guide.poiTypes);
   const pois = useSelector(state => state.poi.pois);
 
   const onFinish = values => {
-    values.poi = pois.find(d => d.id === values.poi);
     dispatch({
       type: 'guide/updateRoute',
       payload: { index, poi: values },
@@ -40,22 +38,9 @@ export default () => {
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
-            name="type"
-            label="点类型"
-            rules={[{ required: true, message: '字段必填' }]}
-          >
-            <Select placeholder="确定一下点类型" allowClear>
-              {poiTypes.map((name, i) => (
-                <Option key={i} value={i}>
-                  {name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="poi"
-            label="起点"
-            rules={[{ required: true, message: '起点是必填项' }]}
+            name="id"
+            label="推荐点"
+            rules={[{ required: true, message: '推荐点是必填项' }]}
           >
             <Select
               placeholder="搜索点"

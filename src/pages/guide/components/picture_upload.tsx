@@ -2,6 +2,7 @@ import React from 'react';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import config from '@/config';
+import store from 'store';
 
 const { serverUrl } = config;
 
@@ -32,7 +33,8 @@ class PicturesWall extends React.Component {
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
-      previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+      previewTitle:
+        file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
     });
   };
 
@@ -52,6 +54,9 @@ class PicturesWall extends React.Component {
           action={`${serverUrl}/v1/route-img`}
           listType="picture-card"
           fileList={fileList}
+          headers={{
+            authorization: `Bearer ${store.get('token')}`,
+          }}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
