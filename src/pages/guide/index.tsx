@@ -25,7 +25,7 @@ export default () => {
   const [form] = Form.useForm();
   const [map, setMap] = useState(null);
   const guide = useSelector(state => state.guide.guide);
-  const routes = guide.Routes;
+  const routes = guide.routes;
   const guideTypes = useSelector(state => state.guide.guideTypes);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default () => {
   }, [routes, map]);
 
   const onFinish = values => {
-    values.routes = guide.Routes;
+    values.routes = guide.routes;
     dispatch({
       type: 'guides/putGuide',
       payload: { data: values, param: { id: guide.id } },

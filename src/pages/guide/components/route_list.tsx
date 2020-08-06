@@ -9,7 +9,7 @@ import PoiModal from './poi_modal';
 export default () => {
   const pois = useSelector(state => state.poi.pois);
   const guide = useSelector(state => state.guide.guide);
-  const routes = guide.Routes;
+  const routes = guide.routes;
   const poiTypes = useSelector(state => state.guide.poiTypes);
   const dispatch = useDispatch();
 
@@ -55,8 +55,7 @@ export default () => {
                   </Button>
                 </Col>
               </Row>
-              {route.Pois?.map(({ id, description }, i) => {
-                console.log(id, description);
+              {route.pois?.map(({ id, description }, i) => {
                 const poi = pois.find(p => id === p.id);
                 return (
                   <Row style={{ padding: '2px 0' }} key={`poi-${i}`}>

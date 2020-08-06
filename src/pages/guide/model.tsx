@@ -60,7 +60,7 @@ export default {
       state.guide = action.payload;
     },
     add_route(state, action) {
-      state.guide.Routes.push(action.payload);
+      state.guide.routes.push(action.payload);
     },
     routes(state, action) {
       state.routes.push(action.payload);
@@ -76,9 +76,9 @@ export default {
     },
     routePoi(state, action) {
       const { index, poi } = action.payload;
-      if (state.guide.Routes[index].Pois)
-        state.guide.Routes[index].Pois.push(poi);
-      else state.guide.Routes[index].Pois = [poi];
+      if (state.guide.routes[index].pois)
+        state.guide.routes[index].pois.push(poi);
+      else state.guide.routes[index].pois = [poi];
     },
   },
   subscriptions: {
