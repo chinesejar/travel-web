@@ -18,6 +18,7 @@ export default ({ children }) => {
       <Layout.Sider collapsed>
         <Menu
           theme="dark"
+          siderCollapsed
           selectedKeys={[history.location.pathname]}
           onClick={({ key }) => history.push(key)}
         >

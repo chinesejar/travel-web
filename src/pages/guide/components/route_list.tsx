@@ -55,8 +55,8 @@ export default () => {
                   </Button>
                 </Col>
               </Row>
-              {route.pois?.map(({ id, description }, i) => {
-                const poi = pois.find(p => id === p.id);
+              {route.pois?.map(({ poi_id, description }, i) => {
+                const poi = pois.find(p => poi_id === p.id);
                 return (
                   <Row style={{ padding: '2px 0' }} key={`poi-${i}`}>
                     <Col span={4}>{poiTypes[poi.type]}</Col>

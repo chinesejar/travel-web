@@ -25,6 +25,7 @@ export default () => {
   const [form] = Form.useForm();
   const [map, setMap] = useState(null);
   const guide = useSelector(state => state.guide.guide);
+  if (!guide) return null;
   const routes = guide.routes;
   const guideTypes = useSelector(state => state.guide.guideTypes);
 
