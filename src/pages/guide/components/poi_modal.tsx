@@ -24,13 +24,13 @@ export default () => {
   };
 
   const onCancel = () => {
-    dispatch({ type: 'guide/setRoutePoi', payload: null });
+    dispatch({ type: 'guide/setRoutePoi' });
   };
 
   return (
     <>
       <Modal
-        visible={!!routePoi}
+        visible={routePoi}
         onCancel={onCancel}
         onOk={form.submit}
         okText="添加"

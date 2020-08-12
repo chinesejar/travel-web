@@ -11,6 +11,7 @@ export default () => {
   const pois = useSelector(state => state.poi.pois);
   const routes = useSelector(state => state.guide.routes);
   const poiTypes = useSelector(state => state.guide.poiTypes);
+  const routePoi = useSelector(state => state.guide.routePoi);
   const dispatch = useDispatch();
 
   const handleEditRoute = route => {
@@ -138,7 +139,7 @@ export default () => {
           ))}
         </Space>
       </Col>
-      <PoiModal />
+      {routePoi && <PoiModal />}
     </Row>
   );
 };
