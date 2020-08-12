@@ -11,7 +11,6 @@ export default () => {
     dispatch({
       type: 'guides/addGuide',
     });
-    history.push('/guide/make');
   };
 
   const handleEdit = guide => {
@@ -19,7 +18,7 @@ export default () => {
       type: 'guide/setGuide',
       payload: guide,
     });
-    history.push('/guide/make');
+    history.push(`/guide/${guide.id}`);
   };
 
   return (

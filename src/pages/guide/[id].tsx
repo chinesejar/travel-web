@@ -20,16 +20,28 @@ import { useDispatch, useSelector } from 'umi';
 const { Option } = Select;
 const { mapView } = config;
 
-export default () => {
+export default ({ match }) => {
+  const guide_id = match.params.id;
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [map, setMap] = useState(null);
+  const pois = useSelector(state => state.poi.pois);
   const guide = useSelector(state => state.guide.guide);
-  if (!guide) return null;
-  const routes = guide.routes;
+  const routes = useSelector(state => state.guide.routes);
   const guideTypes = useSelector(state => state.guide.guideTypes);
 
   useEffect(() => {
+    dispatch({ type: 'poi/setPois' });
+    dispatch({ type: 'guide/setGuideTypes' });
+    dispatch({ type: 'guide/setPoiTypes' });
+    dispatch({
+      type: 'guide/getGuide',
+      payload: { param: { id: guide_id } },
+    });
+    dispatch({
+      type: 'guide/getRoutes',
+      payload: { query: { guide_id } },
+    });
     let amap = new AMap.Map('map', {
       ...mapView,
       layers: [
@@ -43,12 +55,19 @@ export default () => {
   }, []);
 
   useEffect(() => {
+    if (guide) form.setFieldsValue(guide);
+  }, [guide]);
+
+  useEffect(() => {
     if (routes.length > 0 && map) {
       const points = routes.reduce((cur, next) => {
         const { start_poi, end_poi } = next;
+        const start = pois.find(p => p.id === start_poi);
+        const end = pois.find(p => p.id === end_poi);
+        if (!start || !end) return [];
         return cur.concat([
-          [start_poi.lng, start_poi.lat],
-          [end_poi.lng, end_poi.lat],
+          start.geometry.coordinates,
+          end.geometry.coordinates,
         ]);
       }, []);
       AMap.plugin('AMap.Driving', function() {
@@ -74,7 +93,6 @@ export default () => {
   }, [routes, map]);
 
   const onFinish = values => {
-    values.routes = guide.routes;
     dispatch({
       type: 'guides/putGuide',
       payload: { data: values, param: { id: guide.id } },

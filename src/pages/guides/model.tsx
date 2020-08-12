@@ -1,5 +1,6 @@
 import api from '@/services';
 import { message } from 'antd';
+import { history } from 'umi';
 
 const { addGuide, getGuides, putGuide } = api;
 
@@ -19,13 +20,10 @@ export default {
         });
       }
     },
-    *addGuide(_, { call, put }) {
+    *addGuide(_, { call }) {
       const res = yield call(addGuide);
       if (res.success) {
-        yield put({
-          type: 'guide',
-          payload: res.data,
-        });
+        history.push(`/guide/${res.data.id}`);
       }
     },
     *putGuide({ payload }, { call, put }) {

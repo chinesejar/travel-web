@@ -1,28 +1,92 @@
 import api from '@/services';
 
-const { getGuideTypes, getPoiTypes } = api;
+const {
+  getGuideTypes,
+  getPoiTypes,
+  getGuide,
+  getRoutes,
+  addRoute,
+  putRoute,
+  addRoutePoi,
+  putRoutePoi,
+} = api;
 
 export default {
   namespace: 'guide',
   state: {
     guide: null,
     routes: [],
+    route: null,
+    routePoi: null,
     guideTypes: [],
     poiTypes: [],
-    routeIndex: -1,
   },
   effects: {
-    *setGuide({ payload }, { put }) {
+    *getGuide({ payload }, { call, put }) {
+      const res = yield call(getGuide, payload);
+      if (res.success) {
+        yield put({
+          type: 'get_guide',
+          payload: res.data,
+        });
+      }
+    },
+    *getRoutes({ payload }, { call, put }) {
+      const res = yield call(getRoutes, payload);
+      if (res.success) {
+        yield put({
+          type: 'get_routes',
+          payload: res.data,
+        });
+      }
+    },
+    *addRoute({ payload }, { call, put }) {
+      const res = yield call(addRoute, payload);
+      if (res.success) {
+        yield put({
+          type: 'set_route',
+          payload: res.data,
+        });
+      }
+    },
+    *setRoute({ payload }, { put }) {
       yield put({
-        type: 'set_guide',
+        type: 'set_route',
         payload,
       });
     },
-    *addRoute({ payload }, { put }) {
+    *putRoute({ payload }, { call, put }) {
+      const res = yield call(putRoute, payload);
+      if (res.success) {
+        yield put({
+          type: 'set_route',
+          payload: null,
+        });
+      }
+    },
+    *addRoutePoi({ payload }, { call, put }) {
+      const res = yield call(addRoutePoi, payload);
+      if (res.success) {
+        yield put({
+          type: 'set_route_poi',
+          payload: res.data,
+        });
+      }
+    },
+    *setRoutePoi({ payload }, { put }) {
       yield put({
-        type: 'add_route',
+        type: 'set_route_poi',
         payload,
       });
+    },
+    *putRoutePoi({ payload }, { call, put }) {
+      const res = yield call(putRoutePoi, payload);
+      if (res.success) {
+        yield put({
+          type: 'set_route_poi',
+          payload: null,
+        });
+      }
     },
     *setGuideTypes(_, { call, put }) {
       const res = yield call(getGuideTypes);
@@ -56,11 +120,17 @@ export default {
     },
   },
   reducers: {
-    set_guide(state, action) {
+    get_guide(state, action) {
       state.guide = action.payload;
     },
-    add_route(state, action) {
-      state.guide.routes.push(action.payload);
+    get_routes(state, action) {
+      state.routes = action.payload;
+    },
+    set_route(state, action) {
+      state.route = action.payload;
+    },
+    set_route_poi(state, action) {
+      state.routePoi = action.payload;
     },
     routes(state, action) {
       state.routes.push(action.payload);

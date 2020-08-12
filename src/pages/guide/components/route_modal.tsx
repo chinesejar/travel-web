@@ -1,27 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Select, InputNumber, Form, Button, Modal } from 'antd';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useDispatch, useSelector } from 'umi';
-import { useRequest } from '@umijs/hooks';
-import { getPois } from '@/services/api';
-import PicturesWall from './picture_upload';
+import RouteImageModal from './route_image_modal';
 
 const { Option } = Select;
 
 export default () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const [visible, setVisible] = useState(false);
+  const guide = useSelector(state => state.guide.guide);
+  const route = useSelector(state => state.guide.route);
   const pois = useSelector(state => state.poi.pois);
 
+  useEffect(() => {
+    if (route) form.setFieldsValue(route);
+  }, [route]);
+
   const onFinish = values => {
-    values.pois = [];
     dispatch({
-      type: 'guide/addRoute',
-      payload: values,
+      type: 'guide/putRoute',
+      payload: { data: values, param: { id: route.id } },
     });
     form.resetFields();
-    setVisible(false);
+  };
+
+  const handleAddRoute = () => {
+    dispatch({
+      type: 'guide/addRoute',
+      payload: { data: { guide_id: guide.id } },
+    });
+  };
+
+  const handleClearRoute = () => {
+    dispatch({
+      type: 'guide/setRoute',
+      payload: null,
+    });
   };
 
   return (
@@ -30,13 +45,13 @@ export default () => {
         icon={<PlusOutlined />}
         type="primary"
         block
-        onClick={() => setVisible(true)}
+        onClick={handleAddRoute}
       >
         添加线路
       </Button>
       <Modal
-        visible={visible}
-        onCancel={() => setVisible(false)}
+        visible={!!route}
+        onCancel={handleClearRoute}
         onOk={form.submit}
         okText="添加"
         cancelText="取消"
@@ -65,7 +80,7 @@ export default () => {
             <Input.TextArea placeholder="简单清晰的介绍一下你的线路吧～让它变得更有吸引力" />
           </Form.Item>
           <Form.Item name="pictures" label="照片">
-            <PicturesWall />
+            <RouteImageModal />
           </Form.Item>
           <Form.Item
             name="start_poi"

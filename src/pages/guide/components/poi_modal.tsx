@@ -1,35 +1,36 @@
 import React, { useEffect } from 'react';
 import { Input, Select, Form, Modal } from 'antd';
 import { useDispatch, useSelector } from 'umi';
-import { useRequest } from '@umijs/hooks';
-import { getPois, getPoiTypes } from '@/services/api';
-import PicturesWall from './picture_upload';
+import PoiImageModal from './poi_image_modal';
 
 const { Option } = Select;
 
 export default () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const index = useSelector(state => state.guide.routeIndex);
+  const routePoi = useSelector(state => state.guide.routePoi);
   const pois = useSelector(state => state.poi.pois);
+
+  useEffect(() => {
+    if (routePoi) form.setFieldsValue(routePoi);
+  }, [routePoi]);
 
   const onFinish = values => {
     dispatch({
-      type: 'guide/updateRoute',
-      payload: { index, poi: values },
+      type: 'guide/putRoutePoi',
+      payload: { data: values, param: { id: routePoi.id } },
     });
     form.resetFields();
-    onCancel();
   };
 
   const onCancel = () => {
-    dispatch({ type: 'guide/setRouteIndex', payload: -1 });
+    dispatch({ type: 'guide/setRoutePoi', payload: null });
   };
 
   return (
     <>
       <Modal
-        visible={index > -1}
+        visible={!!routePoi}
         onCancel={onCancel}
         onOk={form.submit}
         okText="添加"
@@ -38,7 +39,7 @@ export default () => {
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
-            name="id"
+            name="poi_id"
             label="推荐点"
             rules={[{ required: true, message: '推荐点是必填项' }]}
           >
@@ -65,7 +66,7 @@ export default () => {
             <Input.TextArea placeholder="简单清晰的介绍一下你的线路点吧～让它变得更有吸引力" />
           </Form.Item>
           <Form.Item name="pictures" label="照片">
-            <PicturesWall />
+            <PoiImageModal />
           </Form.Item>
         </Form>
       </Modal>

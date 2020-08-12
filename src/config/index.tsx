@@ -8,4 +8,8 @@ export default {
     process.env.NODE_ENV === 'development'
       ? 'http://127.0.0.1:3000'
       : 'http://travel-api.timeroute.cn',
+  mediaUrl:
+    process.env.NODE_ENV === 'development'
+      ? 'http://127.0.0.1:9000'
+      : 'http://travel-storage.timeroute.cn',
 };

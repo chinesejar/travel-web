@@ -66,9 +66,9 @@ export default defineConfig({
                 },
                 { path: '/guide', exact: true, component: '@/pages/guides' },
                 {
-                  path: '/guide/make',
+                  path: '/guide/:id',
                   exact: true,
-                  component: '@/pages/guide',
+                  component: '@/pages/guide/[id]',
                 },
                 { path: '/poi', exact: true, component: '@/pages/poi' },
               ],
