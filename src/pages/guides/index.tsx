@@ -1,5 +1,14 @@
 import React from 'react';
-import { Typography, Row, Col, Divider, List, Button, Space } from 'antd';
+import {
+  Typography,
+  Row,
+  Col,
+  Divider,
+  List,
+  Button,
+  Space,
+  Table,
+} from 'antd';
 import styles from './index.less';
 import { useDispatch, history, useSelector } from 'umi';
 
@@ -34,23 +43,16 @@ export default () => {
           <Divider orientation="left">我的攻略</Divider>
         </Col>
         <Col span={24}>
-          <List
-            footer={<div>Footer</div>}
-            bordered
-            dataSource={guides}
-            renderItem={item => (
-              <List.Item>
-                <Row>
-                  <Col span={4}>
-                    <Typography.Text>
-                      {item.id} {item.title}
-                    </Typography.Text>
-                  </Col>
-                  <Col span={16}>
-                    {item.days}
-                    <Typography.Text mark>{item.status}</Typography.Text>
-                  </Col>
-                  <Col span={4}>
+          <Table
+            columns={[
+              { title: '标题', key: 'title', dataIndex: 'title' },
+              { title: '描述', key: 'description', dataIndex: 'description' },
+              { title: '创建时间', key: 'createAt', dataIndex: 'createdAt' },
+              {
+                title: '操作',
+                key: 'op',
+                render: item => {
+                  return (
                     <Space>
                       <Button
                         type="primary"
@@ -66,10 +68,11 @@ export default () => {
                         删除
                       </Button>
                     </Space>
-                  </Col>
-                </Row>
-              </List.Item>
-            )}
+                  );
+                },
+              },
+            ]}
+            dataSource={guides}
           />
         </Col>
       </Row>
