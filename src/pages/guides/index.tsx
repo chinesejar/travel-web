@@ -44,6 +44,7 @@ export default () => {
         </Col>
         <Col span={24}>
           <Table
+            bordered
             columns={[
               { title: '标题', key: 'title', dataIndex: 'title' },
               { title: '描述', key: 'description', dataIndex: 'description' },

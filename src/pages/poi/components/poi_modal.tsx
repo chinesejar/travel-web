@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Select, Descriptions, Row, Col, Space, Button, Modal } from 'antd';
+import {
+  Select,
+  Descriptions,
+  Row,
+  Typography,
+  Space,
+  Button,
+  Modal,
+} from 'antd';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { debounce } from 'lodash';
 import config from '@/config';
@@ -53,16 +61,15 @@ export default () => {
 
   return (
     <>
-      <Row>
-        <Col span={18} offset={3}>
-          <Button
-            icon={<PlusOutlined />}
-            type="primary"
-            onClick={() => setVisible(true)}
-          >
-            添加点
-          </Button>
-        </Col>
+      <Row justify="space-between">
+        <Typography.Title level={4}>坐标点</Typography.Title>
+        <Button
+          icon={<PlusOutlined />}
+          type="primary"
+          onClick={() => setVisible(true)}
+        >
+          添加点
+        </Button>
       </Row>
       <Modal
         visible={visible}

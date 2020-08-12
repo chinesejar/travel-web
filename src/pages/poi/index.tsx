@@ -30,7 +30,7 @@ export default () => {
         />
       </Row>
       <Row>
-        <Col span={18} offset={3}>
+        <Col span={24}>
           <Table
             bordered
             className={styles.Table}
