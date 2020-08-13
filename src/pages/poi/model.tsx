@@ -29,7 +29,7 @@ export default {
     *addPoi({ payload }, { call, put }) {
       const res = yield call(addPoi, payload);
       if (res.success) {
-        yield put({ type: 'setPois' });
+        yield put({ type: 'setPois', payload: [] });
       } else {
         notification.error({
           message: '添加失败',
@@ -50,7 +50,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         if ('/guide' === pathname || '/poi' === pathname) {
-          dispatch({ type: 'setPois' });
+          dispatch({ type: 'setPois', payload: [] });
         }
       });
     },
