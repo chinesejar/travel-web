@@ -3,6 +3,7 @@ import { message } from 'antd';
 
 const {
   getGuideTypes,
+  getPoiTypes,
   getGuide,
   getRoutes,
   addRoute,
@@ -21,6 +22,7 @@ export default {
     route: null,
     routePoi: null,
     guideTypes: [],
+    poiTypes: [],
   },
   effects: {
     *getGuide({ payload }, { call, put }) {
@@ -122,6 +124,15 @@ export default {
         });
       }
     },
+    *setPoiTypes(_, { call, put }) {
+      const res = yield call(getPoiTypes);
+      if (res.success) {
+        yield put({
+          type: 'poiTypes',
+          payload: res.data,
+        });
+      }
+    },
   },
   reducers: {
     set_guide(state, action) {
@@ -140,6 +151,9 @@ export default {
       state.routes.push(action.payload);
     },
     guideTypes(state, action) {
+      state.guideTypes = action.payload;
+    },
+    poiTypes(state, action) {
       state.guideTypes = action.payload;
     },
   },
