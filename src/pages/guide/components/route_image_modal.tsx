@@ -27,7 +27,7 @@ const RouteImageModal = () => {
       uid: `${-Math.random() * 1000}`,
       name: image.name,
       status: 'done',
-      url: `${config.mediaUrl}/poi-image/${image.name}`,
+      url: `${config.mediaUrl}/route-image/${image.name}`,
     })),
   );
 
