@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Space, Row, Col, Button, Typography } from 'antd';
+import { Card, Space, Row, Col, Button, Typography, Popconfirm } from 'antd';
 import MinusOutlined from '@ant-design/icons/MinusOutlined';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
 import { useDispatch, useSelector } from 'umi';
@@ -21,10 +21,24 @@ export default () => {
     });
   };
 
+  const handleDeleteRoute = route => {
+    dispatch({
+      type: 'guide/removeRoute',
+      payload: { param: { id: route.id } },
+    });
+  };
+
   const handleEditRoutePoi = routePoi => {
     dispatch({
       type: 'guide/setRoutePoi',
       payload: routePoi,
+    });
+  };
+
+  const handleDeleteRoutePoi = routePoi => {
+    dispatch({
+      type: 'guide/removeRoutePoi',
+      payload: { param: { id: routePoi.id } },
     });
   };
 
@@ -47,6 +61,16 @@ export default () => {
               extra={<span>行程第{route.day}天</span>}
               actions={[
                 <Button onClick={() => handleEditRoute(route)}>编辑</Button>,
+                <Popconfirm
+                  title="确认删除"
+                  okText="确认"
+                  cancelText="取消"
+                  onConfirm={() => handleDeleteRoute(route)}
+                >
+                  <Button type="primary" danger>
+                    删除
+                  </Button>
+                </Popconfirm>,
               ]}
             >
               <Row justify="center">
@@ -125,12 +149,25 @@ export default () => {
                       '该推荐点未完善'
                     )}
                     <Col span={24}>
-                      <Button
-                        size="small"
-                        onClick={() => handleEditRoutePoi(routePoi)}
-                      >
-                        编辑
-                      </Button>
+                      <Space>
+                        <Button
+                          size="small"
+                          onClick={() => handleEditRoutePoi(routePoi)}
+                          type="primary"
+                        >
+                          编辑
+                        </Button>
+                        <Popconfirm
+                          title="确认删除"
+                          okText="确认"
+                          cancelText="取消"
+                          onConfirm={() => handleDeleteRoutePoi(routePoi)}
+                        >
+                          <Button size="small" type="primary" danger>
+                            删除
+                          </Button>
+                        </Popconfirm>
+                      </Space>
                     </Col>
                   </Row>
                 );

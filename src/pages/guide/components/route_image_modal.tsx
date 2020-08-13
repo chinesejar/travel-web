@@ -22,7 +22,14 @@ const RouteImageModal = () => {
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState(
+    route.images.map(image => ({
+      uid: `${-Math.random() * 1000}`,
+      name: image.name,
+      status: 'done',
+      url: `${config.mediaUrl}/poi-image/${image.name}`,
+    })),
+  );
 
   const handleCancel = () => setPreviewVisible(false);
 

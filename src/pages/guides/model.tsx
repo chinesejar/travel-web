@@ -2,7 +2,7 @@ import api from '@/services';
 import { message } from 'antd';
 import { history } from 'umi';
 
-const { addGuide, getGuides, putGuide } = api;
+const { addGuide, getGuides, putGuide, removeGuide } = api;
 
 export default {
   namespace: 'guides',
@@ -36,6 +36,13 @@ export default {
         message.success('保存成功');
       }
     },
+    *removeGuide({ payload }, { call, put }) {
+      const res = yield call(removeGuide, payload);
+      if (res.success) {
+        yield put({ type: 'setGuides' });
+        message.success(res.data.message);
+      }
+    },
   },
   reducers: {
     guides(state, action) {
@@ -53,6 +60,7 @@ export default {
       history.listen(({ pathname }) => {
         if ('/guide' === pathname) {
           dispatch({ type: 'setGuides' });
+          dispatch({ type: 'guide/setGuide', payload: null });
         }
       });
     },

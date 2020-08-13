@@ -4,10 +4,10 @@ import {
   Row,
   Col,
   Divider,
-  List,
   Button,
   Space,
   Table,
+  Popconfirm,
 } from 'antd';
 import styles from './index.less';
 import { useDispatch, history, useSelector } from 'umi';
@@ -23,11 +23,14 @@ export default () => {
   };
 
   const handleEdit = guide => {
-    dispatch({
-      type: 'guide/setGuide',
-      payload: guide,
-    });
     history.push(`/guide/${guide.id}`);
+  };
+
+  const handleDelete = guide => {
+    dispatch({
+      type: 'guides/removeGuide',
+      payload: { param: { id: guide.id } },
+    });
   };
 
   return (
@@ -47,7 +50,19 @@ export default () => {
             bordered
             columns={[
               { title: '标题', key: 'title', dataIndex: 'title' },
-              { title: '描述', key: 'description', dataIndex: 'description' },
+              { title: '行程天数', key: 'days', dataIndex: 'days' },
+              {
+                title: '描述',
+                key: 'description',
+                dataIndex: 'description',
+                ellipsis: true,
+              },
+              {
+                title: '路线数',
+                key: 'routes',
+                dataIndex: 'routes',
+                render: item => `${item.length}条`,
+              },
               { title: '创建时间', key: 'createAt', dataIndex: 'createdAt' },
               {
                 title: '操作',
@@ -62,18 +77,25 @@ export default () => {
                       >
                         编辑
                       </Button>
-                      <Button type="primary" size="small">
+                      <Button type="primary" size="small" disabled>
                         发布
                       </Button>
-                      <Button type="primary" danger size="small">
-                        删除
-                      </Button>
+                      <Popconfirm
+                        title="确认删除"
+                        okText="确认"
+                        cancelText="取消"
+                        onConfirm={() => handleDelete(item)}
+                      >
+                        <Button type="primary" danger size="small">
+                          删除
+                        </Button>
+                      </Popconfirm>
                     </Space>
                   );
                 },
               },
             ]}
-            dataSource={guides}
+            dataSource={guides.map(g => Object.assign(g, { key: g.id }))}
           />
         </Col>
       </Row>

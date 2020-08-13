@@ -1,14 +1,16 @@
 import api from '@/services';
+import { message } from 'antd';
 
 const {
   getGuideTypes,
-  getPoiTypes,
   getGuide,
   getRoutes,
   addRoute,
   putRoute,
+  removeRoute,
   addRoutePoi,
   putRoutePoi,
+  removeRoutePoi,
 } = api;
 
 export default {
@@ -19,26 +21,37 @@ export default {
     route: null,
     routePoi: null,
     guideTypes: [],
-    poiTypes: [],
   },
   effects: {
     *getGuide({ payload }, { call, put }) {
       const res = yield call(getGuide, payload);
       if (res.success) {
         yield put({
-          type: 'get_guide',
+          type: 'set_guide',
           payload: res.data,
         });
       }
+    },
+    *setGuide({ payload }, { put }) {
+      yield put({
+        type: 'set_guide',
+        payload,
+      });
     },
     *getRoutes({ payload }, { call, put }) {
       const res = yield call(getRoutes, payload);
       if (res.success) {
         yield put({
-          type: 'get_routes',
+          type: 'set_routes',
           payload: res.data,
         });
       }
+    },
+    *setRoutes({ payload }, { put }) {
+      yield put({
+        type: 'set_routes',
+        payload,
+      });
     },
     *addRoute({ payload }, { call, put }) {
       const res = yield call(addRoute, payload);
@@ -62,6 +75,12 @@ export default {
           type: 'set_route',
           payload: null,
         });
+      }
+    },
+    *removeRoute({ payload }, { call, put }) {
+      const res = yield call(removeRoute, payload);
+      if (res.success) {
+        message.success(res.data.message);
       }
     },
     *addRoutePoi({ payload }, { call, put }) {
@@ -88,6 +107,12 @@ export default {
         });
       }
     },
+    *removeRoutePoi({ payload }, { call, put }) {
+      const res = yield call(removeRoutePoi, payload);
+      if (res.success) {
+        message.success(res.data.message);
+      }
+    },
     *setGuideTypes(_, { call, put }) {
       const res = yield call(getGuideTypes);
       if (res.success) {
@@ -97,33 +122,12 @@ export default {
         });
       }
     },
-    *setPoiTypes(_, { call, put }) {
-      const res = yield call(getPoiTypes);
-      if (res.success) {
-        yield put({
-          type: 'poiTypes',
-          payload: res.data,
-        });
-      }
-    },
-    *setRouteIndex({ payload }, { put }) {
-      yield put({
-        type: 'routeIndex',
-        payload,
-      });
-    },
-    *updateRoute({ payload }, { put }) {
-      yield put({
-        type: 'routePoi',
-        payload,
-      });
-    },
   },
   reducers: {
-    get_guide(state, action) {
+    set_guide(state, action) {
       state.guide = action.payload;
     },
-    get_routes(state, action) {
+    set_routes(state, action) {
       state.routes = action.payload;
     },
     set_route(state, action) {
@@ -137,30 +141,6 @@ export default {
     },
     guideTypes(state, action) {
       state.guideTypes = action.payload;
-    },
-    poiTypes(state, action) {
-      state.poiTypes = action.payload;
-    },
-    routeIndex(state, action) {
-      state.routeIndex = action.payload;
-    },
-    routePoi(state, action) {
-      const { index, poi } = action.payload;
-      if (state.guide.routes[index].pois)
-        state.guide.routes[index].pois.push(poi);
-      else state.guide.routes[index].pois = [poi];
-    },
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(({ pathname }) => {
-        if ('/guide' === pathname) {
-          dispatch({ type: 'setGuideTypes' });
-        }
-        if ('/guide' === pathname || '/poi' === pathname) {
-          dispatch({ type: 'setPoiTypes' });
-        }
-      });
     },
   },
 };

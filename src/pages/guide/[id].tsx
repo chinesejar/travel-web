@@ -31,9 +31,6 @@ export default ({ match }) => {
   const guideTypes = useSelector(state => state.guide.guideTypes);
 
   useEffect(() => {
-    dispatch({ type: 'poi/setPois' });
-    dispatch({ type: 'guide/setGuideTypes' });
-    dispatch({ type: 'guide/setPoiTypes' });
     dispatch({
       type: 'guide/getGuide',
       payload: { param: { id: guide_id } },
@@ -42,6 +39,21 @@ export default ({ match }) => {
       type: 'guide/getRoutes',
       payload: { query: { guide_id } },
     });
+    return () => {
+      dispatch({
+        type: 'guide/setGuide',
+        payload: null,
+      });
+      dispatch({
+        type: 'guide/setRoutes',
+        payload: [],
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (pois.length === 0) dispatch({ type: 'poi/setPois' });
+    if (guideTypes.length === 0) dispatch({ type: 'guide/setGuideTypes' });
     let amap = new AMap.Map('map', {
       ...mapView,
       layers: [
@@ -70,7 +82,7 @@ export default ({ match }) => {
           end.geometry.coordinates,
         ]);
       }, []);
-      AMap.plugin('AMap.Driving', function() {
+      AMap.plugin('AMap.Driving', () => {
         var driving = new AMap.Driving({
           // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
           policy: AMap.DrivingPolicy.LEAST_TIME,
@@ -83,7 +95,7 @@ export default ({ match }) => {
           {
             waypoints: points.slice(1, points.length - 2),
           },
-          function(status, result) {
+          (status, result) => {
             // 未出错时，result即是对应的路线规划方案
             console.log(status, result);
           },
