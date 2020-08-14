@@ -110,10 +110,10 @@ export default ({ match }) => {
     }
   }, [routes, map]);
 
-  const onFinish = values => {
+  const onFinish = (data: any) => {
     dispatch({
       type: 'guides/putGuide',
-      payload: { data: values, param: { id: guide.id } },
+      payload: { data, param: { id: guide.id } },
     });
   };
 

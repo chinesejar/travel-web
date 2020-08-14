@@ -120,56 +120,57 @@ export default () => {
                 const { poi_id, description, images } = routePoi;
                 const poi = pois.find(p => poi_id == p.id);
                 return (
-                  <Row style={{ padding: '2px 0' }} key={`poi-${i}`}>
+                  <Card
+                    key={`poi-${i}`}
+                    style={{ marginTop: 8 }}
+                    size="small"
+                    title={poi && poi?.name}
+                    extra={poi && poiTypes?.[poi?.type]}
+                    actions={[
+                      <Button
+                        size="small"
+                        onClick={() => handleEditRoutePoi(routePoi)}
+                        type="primary"
+                      >
+                        编辑
+                      </Button>,
+                      <Popconfirm
+                        title="确认删除"
+                        okText="确认"
+                        cancelText="取消"
+                        onConfirm={() => handleDeleteRoutePoi(routePoi)}
+                      >
+                        <Button size="small" type="primary" danger>
+                          删除
+                        </Button>
+                      </Popconfirm>,
+                    ]}
+                  >
                     {poi ? (
                       <>
-                        <Col span={4}>{poiTypes?.[poi?.type]}</Col>
-                        <Col flex={1}>{poi?.name}</Col>
-                        <Col span="auto">{poi?.address}</Col>
-                        <Col span={24}>
-                          <strong>简介：</strong>
-                          {description}
-                        </Col>
-                        <Row gutter={[8, 8]}>
-                          {images?.map((image, i) => {
-                            return (
-                              <Col key={`poi-image-${i}`}>
-                                <img
-                                  src={`${config.mediaUrl}/poi-image/${image.name}`}
-                                  alt={`poi-image-${i}`}
-                                  height={80}
-                                  width={80}
-                                />
-                              </Col>
-                            );
-                          })}
-                        </Row>
+                        <p>地址：{poi?.address}</p>
+                        <p>简介：{description}</p>
                       </>
                     ) : (
-                      '该推荐点未完善'
+                      <Typography.Text type="warning">
+                        该推荐点未完善，请编辑
+                      </Typography.Text>
                     )}
-                    <Col span={24}>
-                      <Space>
-                        <Button
-                          size="small"
-                          onClick={() => handleEditRoutePoi(routePoi)}
-                          type="primary"
-                        >
-                          编辑
-                        </Button>
-                        <Popconfirm
-                          title="确认删除"
-                          okText="确认"
-                          cancelText="取消"
-                          onConfirm={() => handleDeleteRoutePoi(routePoi)}
-                        >
-                          <Button size="small" type="primary" danger>
-                            删除
-                          </Button>
-                        </Popconfirm>
-                      </Space>
-                    </Col>
-                  </Row>
+                    <Row gutter={[8, 8]}>
+                      {images?.map((image, i) => {
+                        return (
+                          <Col key={`poi-image-${i}`}>
+                            <img
+                              src={`${config.mediaUrl}/poi-image/${image.name}`}
+                              alt={`poi-image-${i}`}
+                              height={80}
+                              width={80}
+                            />
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  </Card>
                 );
               })}
             </Card>
