@@ -23,12 +23,14 @@ const RouteImageModal = () => {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState(
-    route.images.map(image => ({
-      uid: `${-Math.random() * 1000}`,
-      name: image.name,
-      status: 'done',
-      url: `${config.mediaUrl}/route-image/${image.name}`,
-    })),
+    route.images
+      ? route.images.map(image => ({
+          uid: `${-Math.random() * 1000}`,
+          name: image.name,
+          status: 'done',
+          url: `${config.mediaUrl}/route-image/${image.name}`,
+        }))
+      : [],
   );
 
   const handleCancel = () => setPreviewVisible(false);
