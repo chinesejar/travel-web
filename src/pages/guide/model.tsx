@@ -40,13 +40,18 @@ export default {
         payload,
       });
     },
-    *getRoutes({ payload }, { call, put }) {
-      const res = yield call(getRoutes, payload);
-      if (res.success) {
-        yield put({
-          type: 'set_routes',
-          payload: res.data,
+    *getRoutes(_, { call, put, select }) {
+      const { guide } = yield select(_ => _.guide);
+      if (guide) {
+        const res = yield call(getRoutes, {
+          query: { guide_id: guide.id },
         });
+        if (res.success) {
+          yield put({
+            type: 'set_routes',
+            payload: res.data,
+          });
+        }
       }
     },
     *setRoutes({ payload }, { put }) {
@@ -55,55 +60,34 @@ export default {
         payload,
       });
     },
-    *addRoute({ payload }, { call, put, select }) {
+    *addRoute({ payload }, { call, put }) {
       const res = yield call(addRoute, payload);
       if (res.success) {
         yield put({
           type: 'set_route',
           payload: res.data,
         });
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
     *setRoute({ payload }, { put }) {
-      yield put({
-        type: 'set_route',
-        payload,
-      });
+      yield put({ type: 'set_route', payload });
     },
-    *putRoute({ payload }, { call, put, select }) {
+    *putRoute({ payload }, { call, put }) {
       const res = yield call(putRoute, payload);
       if (res.success) {
         yield put({
           type: 'set_route',
           payload: null,
         });
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
-    *removeRoute({ payload }, { call, put, select }) {
+    *removeRoute({ payload }, { call, put }) {
       const res = yield call(removeRoute, payload);
       if (res.success) {
         message.success(res.data.message);
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
     *addRoutePoi({ payload }, { call, put, select }) {
@@ -128,33 +112,21 @@ export default {
         payload,
       });
     },
-    *putRoutePoi({ payload }, { call, put, select }) {
+    *putRoutePoi({ payload }, { call, put }) {
       const res = yield call(putRoutePoi, payload);
       if (res.success) {
         yield put({
           type: 'set_route_poi',
           payload: null,
         });
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
-    *removeRoutePoi({ payload }, { call, put, select }) {
+    *removeRoutePoi({ payload }, { call, put }) {
       const res = yield call(removeRoutePoi, payload);
       if (res.success) {
         message.success(res.data.message);
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
     *setGuideTypes(_, { call, put }) {

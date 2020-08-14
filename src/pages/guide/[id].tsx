@@ -44,12 +44,14 @@ export default ({ match }) => {
         type: 'guide/setGuide',
         payload: null,
       });
-      dispatch({
-        type: 'guide/setRoutes',
-        payload: [],
-      });
     };
   }, []);
+
+  useEffect(() => {
+    if (guide) {
+      dispatch({ type: 'guide/getRoutes' });
+    }
+  }, [guide])
 
   useEffect(() => {
     if (pois.length === 0) dispatch({ type: 'poi/setPois' });
