@@ -62,6 +62,13 @@ export default {
           type: 'set_route',
           payload: res.data,
         });
+        const { guide } = yield select(_ => _.guide);
+        yield put({
+          type: 'getRoutes',
+          payload: {
+            query: { guide_id: guide.id },
+          },
+        });
       }
     },
     *setRoute({ payload }, { put }) {
