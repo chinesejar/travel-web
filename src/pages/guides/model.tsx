@@ -62,6 +62,10 @@ export default {
           dispatch({ type: 'setGuides' });
           dispatch({ type: 'guide/setGuide', payload: null });
         }
+        if ('/poi' === pathname || '/guide' === pathname) {
+          dispatch({ type: 'guide/setGuideTypes' });
+          dispatch({ type: 'guide/setPoiTypes' });
+        }
       });
     },
   },

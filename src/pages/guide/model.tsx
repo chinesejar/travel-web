@@ -189,7 +189,7 @@ export default {
       state.guideTypes = action.payload;
     },
     poiTypes(state, action) {
-      state.guideTypes = action.payload;
+      state.poiTypes = action.payload;
     },
   },
 };
