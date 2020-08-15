@@ -12,6 +12,8 @@ const {
   addRoutePoi,
   putRoutePoi,
   removeRoutePoi,
+  removeRouteImage,
+  removePoiImage,
 } = api;
 
 export default {
@@ -118,6 +120,20 @@ export default {
     },
     *removeRoutePoi({ payload }, { call, put }) {
       const res = yield call(removeRoutePoi, payload);
+      if (res.success) {
+        message.success(res.data.message);
+        yield put({ type: 'getRoutes' });
+      }
+    },
+    *removeRouteImage({ payload }, { call, put }) {
+      const res = yield call(removeRouteImage, payload);
+      if (res.success) {
+        message.success(res.data.message);
+        yield put({ type: 'getRoutes' });
+      }
+    },
+    *removePoiImage({ payload }, { call, put }) {
+      const res = yield call(removePoiImage, payload);
       if (res.success) {
         message.success(res.data.message);
         yield put({ type: 'getRoutes' });

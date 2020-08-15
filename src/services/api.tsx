@@ -22,6 +22,10 @@ export default {
   addRoutePoi: 'POST /v1/route-poi',
   putRoutePoi: 'PUT /v1/route-poi/:id',
   removeRoutePoi: 'DELETE /v1/route-poi/:id',
+  // poi-image
+  removePoiImage: 'DELETE /v1/poi-image',
+  // route-image
+  removeRouteImage: 'DELETE /v1/route-image',
   // poi
   getPois: '/v1/poi',
   addPoi: 'POST /v1/poi',

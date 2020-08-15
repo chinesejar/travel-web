@@ -3,7 +3,7 @@ import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import config from '@/config';
 import store from 'store';
-import { useSelector } from 'umi';
+import { useSelector, useDispatch } from 'umi';
 
 const { serverUrl } = config;
 
@@ -19,6 +19,8 @@ function getBase64(file) {
 const PoiImageModal = () => {
   const routePoi = useSelector(state => state.guide.routePoi);
   if (!routePoi) return null;
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -26,6 +28,7 @@ const PoiImageModal = () => {
     routePoi?.images
       ? routePoi.images.map(image => ({
           uid: `${-Math.random() * 1000}`,
+          before: true,
           name: image.name,
           status: 'done',
           url: `${config.mediaUrl}/poi-image/${image.name}`,
@@ -48,6 +51,24 @@ const PoiImageModal = () => {
 
   const handleChange = ({ fileList }) => setFileList(fileList);
 
+  const handleRemove = file => {
+    const { before, name } = file;
+    if (before) {
+      dispatch({
+        type: 'guide/removePoiImage',
+        payload: { data: { name, id: routePoi.id } },
+      });
+    } else {
+      dispatch({
+        type: 'guide/removePoiImage',
+        payload: {
+          data: { name: `${user.id}/${routePoi.id}/${name}`, id: routePoi.id },
+        },
+      });
+    }
+    return true;
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -57,7 +78,7 @@ const PoiImageModal = () => {
   return (
     <div className="clearfix">
       <Upload
-        action={`${serverUrl}/v1/poi-img`}
+        action={`${serverUrl}/v1/poi-image`}
         listType="picture-card"
         fileList={fileList}
         headers={{
@@ -68,6 +89,7 @@ const PoiImageModal = () => {
         }}
         onPreview={handlePreview}
         onChange={handleChange}
+        onRemove={handleRemove}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>

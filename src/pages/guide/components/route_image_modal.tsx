@@ -3,7 +3,7 @@ import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import config from '@/config';
 import store from 'store';
-import { useSelector } from 'umi';
+import { useSelector, useDispatch } from 'umi';
 
 const { serverUrl } = config;
 
@@ -19,6 +19,8 @@ function getBase64(file) {
 const RouteImageModal = () => {
   const route = useSelector(state => state.guide.route);
   if (!route) return null;
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -26,6 +28,7 @@ const RouteImageModal = () => {
     route.images
       ? route.images.map(image => ({
           uid: `${-Math.random() * 1000}`,
+          before: true,
           name: image.name,
           status: 'done',
           url: `${config.mediaUrl}/route-image/${image.name}`,
@@ -48,6 +51,24 @@ const RouteImageModal = () => {
 
   const handleChange = ({ fileList }) => setFileList(fileList);
 
+  const handleRemove = file => {
+    const { before, name } = file;
+    if (before) {
+      dispatch({
+        type: 'guide/removeRouteImage',
+        payload: { data: { name, id: route.id } },
+      });
+    } else {
+      dispatch({
+        type: 'guide/removeRouteImage',
+        payload: {
+          data: { name: `${user.id}/${route.id}/${name}`, id: route.id },
+        },
+      });
+    }
+    return true;
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -57,7 +78,7 @@ const RouteImageModal = () => {
   return (
     <div className="clearfix">
       <Upload
-        action={`${serverUrl}/v1/route-img`}
+        action={`${serverUrl}/v1/route-image`}
         listType="picture-card"
         fileList={fileList}
         headers={{
@@ -68,6 +89,7 @@ const RouteImageModal = () => {
         }}
         onPreview={handlePreview}
         onChange={handleChange}
+        onRemove={handleRemove}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
