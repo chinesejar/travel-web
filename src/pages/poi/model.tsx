@@ -1,5 +1,5 @@
 import api from '@/services';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 
 const { addPoi, getPois } = api;
 
@@ -29,6 +29,9 @@ export default {
     *addPoi({ payload }, { call, put }) {
       const res = yield call(addPoi, payload);
       if (res.success) {
+        message.success({
+          message: '添加成功',
+        });
         yield put({ type: 'setPois', payload: [] });
       } else {
         notification.error({
