@@ -44,12 +44,14 @@ export default ({ match }) => {
         type: 'guide/setGuide',
         payload: null,
       });
-      dispatch({
-        type: 'guide/setRoutes',
-        payload: [],
-      });
     };
   }, []);
+
+  useEffect(() => {
+    if (guide) {
+      dispatch({ type: 'guide/getRoutes' });
+    }
+  }, [guide])
 
   useEffect(() => {
     if (pois.length === 0) dispatch({ type: 'poi/setPois' });
@@ -83,31 +85,35 @@ export default ({ match }) => {
         ]);
       }, []);
       AMap.plugin('AMap.Driving', () => {
-        var driving = new AMap.Driving({
-          // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
-          policy: AMap.DrivingPolicy.LEAST_TIME,
-          // map 指定将路线规划方案绘制到对应的AMap.Map对象上
-          map: map,
-        });
-        driving.search(
-          points[0],
-          points[points.length - 1],
-          {
-            waypoints: points.slice(1, points.length - 2),
-          },
-          (status, result) => {
-            // 未出错时，result即是对应的路线规划方案
-            console.log(status, result);
-          },
-        );
+        try {
+          var driving = new AMap.Driving({
+            // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+            policy: AMap.DrivingPolicy.LEAST_TIME,
+            // map 指定将路线规划方案绘制到对应的AMap.Map对象上
+            map: map,
+          });
+          driving.search(
+            points[0],
+            points[points.length - 1],
+            {
+              waypoints: points.slice(1, points.length - 2),
+            },
+            (status, result) => {
+              // 未出错时，result即是对应的路线规划方案
+              console.log(status, result);
+            },
+          );
+        } catch (err) {
+          console.log(err);
+        }
       });
     }
   }, [routes, map]);
 
-  const onFinish = values => {
+  const onFinish = (data: any) => {
     dispatch({
       type: 'guides/putGuide',
-      payload: { data: values, param: { id: guide.id } },
+      payload: { data, param: { id: guide.id } },
     });
   };
 
