@@ -90,20 +90,14 @@ export default {
         yield put({ type: 'getRoutes' });
       }
     },
-    *addRoutePoi({ payload }, { call, put, select }) {
+    *addRoutePoi({ payload }, { call, put }) {
       const res = yield call(addRoutePoi, payload);
       if (res.success) {
         yield put({
           type: 'set_route_poi',
           payload: res.data,
         });
-        const { guide } = yield select(_ => _.guide);
-        yield put({
-          type: 'getRoutes',
-          payload: {
-            query: { guide_id: guide.id },
-          },
-        });
+        yield put({ type: 'getRoutes' });
       }
     },
     *setRoutePoi({ payload }, { put }) {
