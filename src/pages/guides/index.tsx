@@ -43,9 +43,6 @@ export default () => {
       </Row>
       <Row align="middle">
         <Col span={24}>
-          <Divider orientation="left">我的攻略</Divider>
-        </Col>
-        <Col span={24}>
           <Table
             bordered
             columns={[
