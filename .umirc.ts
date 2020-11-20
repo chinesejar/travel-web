@@ -14,6 +14,7 @@ export default defineConfig({
   },
   externals: {
     AMap: 'window.AMap',
+    AMapUI: 'window.AMapUI',
   },
   metas: [
     {
@@ -33,6 +34,7 @@ export default defineConfig({
   ],
   scripts: [
     'https://webapi.amap.com/maps?v=1.4.15&key=bca26f48f82f1946c58e76f241173019',
+    'https://webapi.amap.com/ui/1.1/main.js?v=1.1.1',
   ],
   links: [
     {
@@ -54,6 +56,7 @@ export default defineConfig({
             { path: '/', exact: true, component: '@/pages/index' },
             { path: '/login', exact: true, component: '@/pages/login' },
             { path: '/register', exact: true, component: '@/pages/register' },
+            { path: '/make', exact: true, component: '@/pages/make' },
             {
               path: '/',
               exact: false,
