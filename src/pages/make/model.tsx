@@ -3,10 +3,20 @@ import { message } from 'antd';
 export default {
   namespace: 'make',
   state: {
-    guide: [],
-    index: null,
+    guide: {
+      title: '',
+      content: '',
+      routes: [],
+    },
+    index: -1,
   },
   effects: {
+    *setGuide({ payload }, { put }) {
+      yield put({
+        type: 'set_guide',
+        payload,
+      });
+    },
     *addRoute({ payload }, { put }) {
       yield put({
         type: 'add_route',
@@ -39,12 +49,15 @@ export default {
     },
   },
   reducers: {
+    set_guide(state, action) {
+      state.guide = Object.assign(state.guide, action.payload);
+    },
     add_route(state, action) {
-      state.guide.push(action.payload);
+      state.guide.routes.push(action.payload);
     },
     set_route(state, action) {
-      state.guide[state.index] = Object.assign(
-        state.guide[state.index],
+      state.guide.routes[state.index] = Object.assign(
+        state.guide.routes[state.index],
         action.payload,
       );
     },
@@ -53,13 +66,13 @@ export default {
     },
     add_poi(state, action) {
       if (
-        state.guide[state.index].pois.find(
+        state.guide.routes[state.index].pois.find(
           ({ poi: { id } }) => id === action.payload.id,
         )
       ) {
         message.warn('该 POI 已添加！');
       } else {
-        state.guide[state.index].pois.push({
+        state.guide.routes[state.index].pois.push({
           poi: action.payload,
           content: '',
           images: [],
@@ -67,7 +80,7 @@ export default {
       }
     },
     remove_poi(state, action) {
-      state.guide[state.index].pois.splice(action.payload, 1);
+      state.guide.routes[state.index].pois.splice(action.payload, 1);
     },
   },
 };

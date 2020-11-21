@@ -25,11 +25,10 @@ import styles from '../index.less';
 
 export default function Route() {
   const { guide, index } = useSelector(state => state.make);
-  const route = guide[index];
+  const route = guide.routes[index];
   const dispatch = useDispatch();
   const [modalIndex, setModalIndex] = useState(null);
   const [images, setImages] = useState([]);
-  if (!route) return null;
 
   return (
     <>

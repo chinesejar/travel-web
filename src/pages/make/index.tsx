@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'umi';
 import Map from './components/Map';
 import Route from './components/Route';
 import styles from './index.less';
+import Meta from './components/Meta';
 
 export default () => {
-  const { guide } = useSelector(state => state.make);
+  const { guide, index } = useSelector(state => state.make);
   const dispatch = useDispatch();
 
   return (
@@ -14,7 +15,25 @@ export default () => {
       <Row gutter={12} className={styles.content}>
         <Col>
           <div className={styles.part}>
-            {guide.map((_, i) => (
+            <div
+              className={styles.item}
+              onClick={() => {
+                dispatch({
+                  type: 'make/setIndex',
+                  payload: -1,
+                });
+              }}
+            >
+              <div
+                className={styles.text}
+                style={{
+                  backgroundColor: 'yellowgreen',
+                }}
+              >
+                信息
+              </div>
+            </div>
+            {guide.routes.map((_, i) => (
               <div
                 className={styles.item}
                 key={`guide-${i}`}
@@ -46,7 +65,7 @@ export default () => {
         </Col>
         <Col xs={24} sm={8} md={6} xl={6} xxl={4}>
           <div className={styles.part} style={{ padding: 5 }}>
-            <Route />
+            {index === -1 ? <Meta /> : <Route />}
           </div>
         </Col>
         <Col flex="auto">

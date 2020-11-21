@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { renderToString } from 'react-dom/server';
-import { Input, Button, message } from 'antd';
+import { Input, Button } from 'antd';
 import AMap from 'AMap';
 import AMapUI from 'AMapUI';
 import styles from '../index.less';
